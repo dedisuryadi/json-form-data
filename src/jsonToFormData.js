@@ -69,7 +69,7 @@
             throw 'This environment does not have global form data. options.initialFormData must be specified.';
         }
 
-        let defaultOptions = {
+        var defaultOptions = {
             initialFormData: getDefaultFormData(),
             showLeafArrayIndexes: true,
             includeNullValues: false,
@@ -82,21 +82,21 @@
             }
         };
 
-        let mergedOptions = mergeObjects(defaultOptions, options || {});
+        var mergedOptions = mergeObjects(defaultOptions, options || {});
 
         return convertRecursively(jsonObject, mergedOptions, mergedOptions.initialFormData);
     }
 
     function convertRecursively(jsonObject, options, formData, parentKey) {
 
-        let index = 0;
+        var index = 0;
 
-        for (let key in jsonObject) {
+        for (var key in jsonObject) {
 
             if (jsonObject.hasOwnProperty(key)) {
 
-                let propName = parentKey || key;
-                let value = options.mapping(jsonObject[key]);
+                var propName = parentKey || key;
+                var value = options.mapping(jsonObject[key]);
 
                 if (parentKey && isJsonObject(jsonObject)) {
                   if (options.useDotSeparator) {
@@ -121,7 +121,7 @@
 
                 } else if (value instanceof FileList) {
 
-                    for (let j = 0; j < value.length; j++) {
+                    for (var j = 0; j < value.length; j++) {
                         formData.append(propName + '[' + j + ']', value.item(j));
                     }
                 } else if (value instanceof Blob) {
