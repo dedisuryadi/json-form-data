@@ -49,6 +49,7 @@
             initialFormData: getDefaultFormData(),
             showLeafArrayIndexes: true,
             includeNullValues: false,
+            useDotSeparator: false,
             mapping: function(value) {
                 if (typeof value === "boolean") {
                     return +value ? "1" : "0";
@@ -66,7 +67,11 @@
                 var propName = parentKey || key;
                 var value = options.mapping(jsonObject[key]);
                 if (parentKey && isJsonObject(jsonObject)) {
-                    propName = parentKey + "[" + key + "]";
+                    if (options.useDotSeparator) {
+                        propName = parentKey + "." + key;
+                    } else {
+                        propName = parentKey + "[" + key + "]";
+                    }
                 }
                 if (parentKey && isArray(jsonObject)) {
                     if (isArray(value) || options.showLeafArrayIndexes) {
