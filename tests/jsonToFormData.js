@@ -12,12 +12,12 @@ describe('jsonToFormData', function() {
 
     it('should not append null or undefined values', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: null,
             prop2: undefined
         };
 
-        var formDataResult = window.jsonToFormData(testObject);
+        let formDataResult = window.jsonToFormData(testObject);
 
         expect(formDataResult.has('prop1')).to.equal(false);
         expect(formDataResult.has('prop2')).to.equal(false);
@@ -25,12 +25,12 @@ describe('jsonToFormData', function() {
 
     it('should convert true to 1 and false to 0', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: true,
             prop2: false
         };
 
-        var formDataResult = window.jsonToFormData(testObject);
+        let formDataResult = window.jsonToFormData(testObject);
 
         expect(formDataResult.get('prop1')).to.equal('1');
         expect(formDataResult.get('prop2')).to.equal('0');
@@ -38,11 +38,11 @@ describe('jsonToFormData', function() {
 
     it('should convert arrays', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: [11, 'test', true, false]
         };
 
-        var formDataResult = window.jsonToFormData(testObject);
+        let formDataResult = window.jsonToFormData(testObject);
 
         expect(formDataResult.get('prop1[0]')).to.equal('11');
         expect(formDataResult.get('prop1[1]')).to.equal('test');
@@ -52,10 +52,10 @@ describe('jsonToFormData', function() {
 
     it('should convert a shallow object', function() {
 
-        var file = new Blob(['file contents'], { type: 'text/plain' });
+        let file = new Blob(['file contents'], { type: 'text/plain' });
         file.name = "filename.txt";
 
-        var testObject = {
+        let testObject = {
             prop1: 'test',
             prop2: 2,
             prop3: null,
@@ -65,7 +65,7 @@ describe('jsonToFormData', function() {
             prop7: file
         };
 
-        var formDataResult = window.jsonToFormData(testObject);
+        let formDataResult = window.jsonToFormData(testObject);
 
         expect(formDataResult.get('prop1')).to.equal('test');
         expect(formDataResult.get('prop2')).to.equal('2');
@@ -78,7 +78,7 @@ describe('jsonToFormData', function() {
 
     it('should convert a nested object', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: 'test',
             prop2: 2,
             prop3: null,
@@ -95,7 +95,7 @@ describe('jsonToFormData', function() {
             }
         };
 
-        var formDataResult = window.jsonToFormData(testObject);
+        let formDataResult = window.jsonToFormData(testObject);
 
         expect(formDataResult.get('prop7[prop1]')).to.equal('test');
         expect(formDataResult.get('prop7[prop2]')).to.equal('2');
@@ -105,7 +105,7 @@ describe('jsonToFormData', function() {
 
     it('should convert an object nested 3 levels deep', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: 'test',
             prop2: 2,
             prop3: null,
@@ -130,7 +130,7 @@ describe('jsonToFormData', function() {
             }
         };
 
-        var formDataResult = window.jsonToFormData(testObject);
+        let formDataResult = window.jsonToFormData(testObject);
 
         expect(formDataResult.get('prop7[prop7][prop1]')).to.equal('test');
         expect(formDataResult.get('prop7[prop7][prop2]')).to.equal('2');
@@ -140,7 +140,7 @@ describe('jsonToFormData', function() {
 
     it('should convert an array nested within an object', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: 'test',
             prop2: 2,
             prop3: null,
@@ -158,7 +158,7 @@ describe('jsonToFormData', function() {
             }
         };
 
-        var formDataResult = window.jsonToFormData(testObject);
+        let formDataResult = window.jsonToFormData(testObject);
 
         expect(formDataResult.get('prop7[prop7][0]')).to.equal('11');
         expect(formDataResult.get('prop7[prop7][1]')).to.equal('test');
@@ -168,7 +168,7 @@ describe('jsonToFormData', function() {
 
     it('should convert an object deeply nested within an array', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: 'test',
             prop2: 2,
             prop3: null,
@@ -186,7 +186,7 @@ describe('jsonToFormData', function() {
             }
         };
 
-        var formDataResult = window.jsonToFormData(testObject);
+        let formDataResult = window.jsonToFormData(testObject);
 
         expect(formDataResult.get('prop7[prop7][4][prop1]')).to.equal('foo');
         expect(formDataResult.get('prop7[prop7][4][prop2]')).to.equal('bar');
@@ -194,7 +194,7 @@ describe('jsonToFormData', function() {
 
     it('should convert an array of objects', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: 'test',
             prop2: 2,
             prop3: null,
@@ -218,7 +218,7 @@ describe('jsonToFormData', function() {
             }]
         };
 
-        var formDataResult = window.jsonToFormData(testObject);
+        let formDataResult = window.jsonToFormData(testObject);
 
         expect(formDataResult.get('prop7[0][prop1]')).to.equal('test');
         expect(formDataResult.get('prop7[0][prop2]')).to.equal('2');
@@ -233,7 +233,7 @@ describe('jsonToFormData', function() {
 
     it('should use the showLeafArrayIndexes option to hide leaf array indexes', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: [
                 [11, 'test', true, false]
             ],
@@ -244,7 +244,7 @@ describe('jsonToFormData', function() {
             }
         };
 
-        var formDataResult = window.jsonToFormData(testObject, { showLeafArrayIndexes: false });
+        let formDataResult = window.jsonToFormData(testObject, { showLeafArrayIndexes: false });
 
         expect(formDataResult.getAll('prop1[0][]')[0]).to.equal('11');
         expect(formDataResult.getAll('prop1[0][]')[1]).to.equal('test');
@@ -259,7 +259,7 @@ describe('jsonToFormData', function() {
 
     it('should support custom value mappings', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: 'test',
             prop2: 2,
             prop3: null,
@@ -268,7 +268,7 @@ describe('jsonToFormData', function() {
             prop6: false
         };
 
-        var options = {
+        let options = {
             mapping: function(value) {
                 if (value === null) {
                     return 'foo';
@@ -286,7 +286,7 @@ describe('jsonToFormData', function() {
             }
         };
 
-        var formDataResult = window.jsonToFormData(testObject, options);
+        let formDataResult = window.jsonToFormData(testObject, options);
 
         expect(formDataResult.get('prop1')).to.equal('test');
         expect(formDataResult.get('prop2')).to.equal('2');
@@ -298,7 +298,7 @@ describe('jsonToFormData', function() {
 
     it('should exclude null and undefined values from custom value mappings', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: 'test',
             prop2: 2,
             prop3: null,
@@ -307,7 +307,7 @@ describe('jsonToFormData', function() {
             prop6: false
         };
 
-        var options = {
+        let options = {
             mapping: function(value) {
                 if (value === true) {
                     return undefined;
@@ -319,7 +319,7 @@ describe('jsonToFormData', function() {
             }
         };
 
-        var formDataResult = window.jsonToFormData(testObject, options);
+        let formDataResult = window.jsonToFormData(testObject, options);
 
         expect(formDataResult.get('prop1')).to.equal('test');
         expect(formDataResult.get('prop2')).to.equal('2');
@@ -331,7 +331,7 @@ describe('jsonToFormData', function() {
 
     it('should include null values when specified by options', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: 'test',
             prop2: 2,
             prop3: null,
@@ -340,11 +340,11 @@ describe('jsonToFormData', function() {
             prop6: false
         };
 
-        var options = {
+        let options = {
             includeNullValues: true
         };
 
-        var formDataResult = window.jsonToFormData(testObject, options);
+        let formDataResult = window.jsonToFormData(testObject, options);
 
         expect(formDataResult.get('prop1')).to.equal('test');
         expect(formDataResult.get('prop2')).to.equal('2');
@@ -356,7 +356,7 @@ describe('jsonToFormData', function() {
 
     it('should include null values when specified by options and returned by custom mapping', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: 'test',
             prop2: 2,
             prop3: null,
@@ -365,7 +365,7 @@ describe('jsonToFormData', function() {
             prop6: false
         };
 
-        var options = {
+        let options = {
             includeNullValues: true,
             mapping: function(value) {
                 if (value === 'test') {
@@ -375,7 +375,7 @@ describe('jsonToFormData', function() {
             }
         };
 
-        var formDataResult = window.jsonToFormData(testObject, options);
+        let formDataResult = window.jsonToFormData(testObject, options);
 
         expect(formDataResult.get('prop1')).to.equal('null');
         expect(formDataResult.get('prop2')).to.equal('2');
@@ -387,10 +387,10 @@ describe('jsonToFormData', function() {
 
     it('should convert a nested object containing a file', function() {
 
-        var file = new Blob(['file contents'], { type: 'text/plain' });
+        let file = new Blob(['file contents'], { type: 'text/plain' });
         file.name = "filename.txt";
 
-        var testObject = {
+        let testObject = {
             department: {
                 main_image: {
                     image: file,
@@ -406,7 +406,7 @@ describe('jsonToFormData', function() {
             }
         };
 
-        var formDataResult = window.jsonToFormData(testObject);
+        let formDataResult = window.jsonToFormData(testObject);
 
         expect(formDataResult.get('department[main_image][image]').name).to.equal('filename.txt');
         expect(formDataResult.get('department[main_image][image]').type).to.equal('text/plain');
@@ -422,25 +422,25 @@ describe('jsonToFormData', function() {
 
     it('should convert a date object to an ISO date formatted string', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: new Date('05 January 2020 16:52:00 GMT')
         };
 
-        var formDataResult = window.jsonToFormData(testObject);
+        let formDataResult = window.jsonToFormData(testObject);
 
         expect(formDataResult.get('prop1')).to.equal('2020-01-05T16:52:00.000Z');
     });
 
     it('should append data to an existing form data object', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: 'foo'
         };
 
-        var initialFormData = new FormData();
+        let initialFormData = new FormData();
         initialFormData.append('prop2', 'bar');
 
-        var formDataResult = window.jsonToFormData(testObject, { initialFormData: initialFormData });
+        let formDataResult = window.jsonToFormData(testObject, { initialFormData: initialFormData });
 
         expect(formDataResult.get('prop1')).to.equal('foo');
         expect(formDataResult.get('prop2')).to.equal('bar');
@@ -448,15 +448,15 @@ describe('jsonToFormData', function() {
 
     it('should override data on initial form data object', function() {
 
-        var testObject = {
+        let testObject = {
             prop1: 'foo',
             prop2: 'bar'
         };
 
-        var initialFormData = new FormData();
+        let initialFormData = new FormData();
         initialFormData.append('prop1', 'baz');
 
-        var formDataResult = window.jsonToFormData(testObject, { initialFormData: initialFormData });
+        let formDataResult = window.jsonToFormData(testObject, { initialFormData: initialFormData });
 
         expect(formDataResult.get('prop1')).to.equal('baz');
         expect(formDataResult.get('prop2')).to.equal('bar');
@@ -464,7 +464,7 @@ describe('jsonToFormData', function() {
 
     it('should throw exception if initial form data is not valid', function() {
 
-        var runConversion = function() {
+        let runConversion = function() {
             window.jsonToFormData({}, { initialFormData: {} });
         };
 
@@ -475,7 +475,7 @@ describe('jsonToFormData', function() {
 
         window.FormData = undefined;
 
-        var runConversion = function() {
+        let runConversion = function() {
             window.jsonToFormData({});
         };
 
