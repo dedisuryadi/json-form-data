@@ -1,6 +1,6 @@
 {
-  "name": "json-form-data",
-  "version": "1.7.2",
+  "name": "@dedisuryadi/json-form-data",
+  "version": "0.1.1",
   "description": "A library to convert javascript objects into form data.",
   "main": "./src/jsonToFormData.js",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hyperatom/json-form-data.git"
+    "url": "git+https://github.com/dedisuryadi/json-form-data.git"
   },
   "keywords": [
     "json",
@@ -24,9 +24,9 @@
   "author": "Adam Barrell",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hyperatom/json-form-data/issues"
+    "url": "https://github.com/dedisuryadi/json-form-data/issues"
   },
-  "homepage": "https://github.com/hyperatom/json-form-data#readme",
+  "homepage": "https://github.com/dedisuryadi/json-form-data#readme",
   "devDependencies": {
     "chai": "^4.2.0",
     "formdata-polyfill": "^3.0.13",
