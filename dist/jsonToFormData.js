@@ -37,6 +37,12 @@
             return new FormData();
         }
     }
+    function isPrimitive(value) {
+        return value === null || typeof value !== "object" && typeof value !== "function";
+    }
+    function isArrayOfPrimitives(arr) {
+        return Array.isArray(arr) && arr.every(isPrimitive);
+    }
     function convert(jsonObject, options) {
         if (options && options.initialFormData) {
             if (!isAppendFunctionPresent(options.initialFormData)) {
@@ -58,9 +64,13 @@
             }
         };
         var mergedOptions = mergeObjects(defaultOptions, options || {});
-        return convertRecursively(jsonObject, mergedOptions, mergedOptions.initialFormData);
+        return convertRecursively(jsonObject, mergedOptions, mergedOptions.initialFormData, isArrayOfPrimitives(jsonObject));
     }
-    function convertRecursively(jsonObject, options, formData, parentKey) {
+    function convertRecursively(jsonObject, options, formData, isToplevelArrPrimitive, parentKey) {
+        if (isToplevelArrPrimitive) {
+            for (var key in jsonObject) formData.append("[" + key + "]", jsonObject[key]);
+            return formData;
+        }
         var index = 0;
         for (var key in jsonObject) {
             if (jsonObject.hasOwnProperty(key)) {
@@ -81,7 +91,7 @@
                     }
                 }
                 if (isArray(value) || isJsonObject(value)) {
-                    convertRecursively(value, options, formData, propName);
+                    convertRecursively(value, options, formData, false, propName);
                 } else if (value instanceof FileList) {
                     for (var j = 0; j < value.length; j++) {
                         formData.append(propName + "[" + j + "]", value.item(j));
