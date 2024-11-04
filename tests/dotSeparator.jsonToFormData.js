@@ -12,6 +12,44 @@ describe('jsonToFormData with dot separator', function () {
     expect(formDataResult.has('prop2')).to.equal(false);
   });
 
+  it('should support top level primitive array format', function () {
+
+    let testObject = [
+      '6a03cc7d-01e2-4a71-9b1b-b1f05f1c3bad',
+      '49e890b5-0637-4cea-9147-7c132c5ad8e2',
+      '8af12d92-7948-4ffb-918d-abc72193308e',
+    ];
+
+    let formDataResult = window.jsonToFormData(testObject, {useDotSeparator: true});
+
+    expect(formDataResult.has('[0]')).to.equal(true);
+    expect(formDataResult.has('[1]')).to.equal(true);
+    expect(formDataResult.has('[2]')).to.equal(true);
+
+    expect(formDataResult.get('[0]')).to.equal('6a03cc7d-01e2-4a71-9b1b-b1f05f1c3bad');
+    expect(formDataResult.get('[1]')).to.equal('49e890b5-0637-4cea-9147-7c132c5ad8e2');
+    expect(formDataResult.get('[2]')).to.equal('8af12d92-7948-4ffb-918d-abc72193308e');
+  });
+
+  it('should support top level primitive array of int format', function () {
+
+    let testObject = [
+      1,
+      2,
+      3,
+    ];
+
+    let formDataResult = window.jsonToFormData(testObject, {useDotSeparator: true});
+
+    expect(formDataResult.has('[0]')).to.equal(true);
+    expect(formDataResult.has('[1]')).to.equal(true);
+    expect(formDataResult.has('[2]')).to.equal(true);
+
+    expect(formDataResult.get('[0]')).to.equal('1');
+    expect(formDataResult.get('[1]')).to.equal('2');
+    expect(formDataResult.get('[2]')).to.equal('3');
+  });
+
   it('should convert true to 1 and false to 0 with useDotSeparator', function () {
 
     let testObject = {
@@ -455,3 +493,6 @@ describe('jsonToFormData with dot separator', function () {
     expect(formDataResult.get('prop2')).to.equal('bar');
   });
 });
+
+
+
