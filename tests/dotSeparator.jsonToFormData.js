@@ -31,6 +31,25 @@ describe('jsonToFormData with dot separator', function () {
     expect(formDataResult.get('[2]')).to.equal('8af12d92-7948-4ffb-918d-abc72193308e');
   });
 
+  it('should support top level object format', function () {
+
+    let testObject = {
+      '6a03cc7d-01e2-4a71-9b1b-b1f05f1c3bad': 1,
+      '49e890b5-0637-4cea-9147-7c132c5ad8e2': 1,
+      '8af12d92-7948-4ffb-918d-abc72193308e': 1,
+    };
+
+    let formDataResult = window.jsonToFormData(testObject, {useDotSeparator: true});
+
+    expect(formDataResult.has('6a03cc7d-01e2-4a71-9b1b-b1f05f1c3bad')).to.equal(true);
+    expect(formDataResult.has('49e890b5-0637-4cea-9147-7c132c5ad8e2')).to.equal(true);
+    expect(formDataResult.has('8af12d92-7948-4ffb-918d-abc72193308e')).to.equal(true);
+
+    expect(formDataResult.get('6a03cc7d-01e2-4a71-9b1b-b1f05f1c3bad')).to.equal('1');
+    expect(formDataResult.get('49e890b5-0637-4cea-9147-7c132c5ad8e2')).to.equal('1');
+    expect(formDataResult.get('8af12d92-7948-4ffb-918d-abc72193308e')).to.equal('1');
+  });
+
   it('should support top level primitive array of int format', function () {
 
     let testObject = [
