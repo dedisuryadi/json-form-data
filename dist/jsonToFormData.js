@@ -37,11 +37,15 @@
             return new FormData();
         }
     }
-    function topLevelArraySupportedTypes(value) {
-        return typeof value === "number" || typeof value === "string";
+    function isPlainArray(arr) {
+        if (!Array.isArray(arr)) return false;
+        for (var key in arr) {
+            if (!/^\d+$/.test(key)) return false;
+        }
+        return true;
     }
     function isTopLevelArraySupported(arr) {
-        return Array.isArray(arr) && arr.every(topLevelArraySupportedTypes);
+        return isPlainArray(arr);
     }
     function convert(jsonObject, options) {
         if (options && options.initialFormData) {

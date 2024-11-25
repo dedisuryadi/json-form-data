@@ -56,12 +56,18 @@
         }
     }
 
-    function topLevelArraySupportedTypes(value) {
-        return typeof value === "number" || typeof value === "string";
+    function isPlainArray(arr) {
+        if (!Array.isArray(arr)) return false; // Ensure it's an array.
+
+        // Check if all enumerable properties are numeric indices.
+        for (var key in arr) {
+            if (!/^\d+$/.test(key)) return false; // Non-numeric key found.
+        }
+        return true; // All keys are numeric.
     }
 
     function isTopLevelArraySupported(arr) {
-        return Array.isArray(arr) && arr.every(topLevelArraySupportedTypes);
+        return isPlainArray(arr)
     }
 
     function convert(jsonObject, options) {
