@@ -56,12 +56,12 @@
         }
     }
 
-    function isPrimitive(value) {
-        return value === null || (typeof value !== 'object' && typeof value !== 'function');
+    function topLevelArraySupportedTypes(value) {
+        return typeof value === "number" || typeof value === "string";
     }
 
-    function isArrayOfPrimitives(arr) {
-        return Array.isArray(arr) && arr.every(isPrimitive);
+    function isTopLevelArraySupported(arr) {
+        return Array.isArray(arr) && arr.every(topLevelArraySupportedTypes);
     }
 
     function convert(jsonObject, options) {
@@ -92,7 +92,7 @@
 
         var mergedOptions = mergeObjects(defaultOptions, options || {});
 
-        return convertRecursively(jsonObject, mergedOptions, mergedOptions.initialFormData, isArrayOfPrimitives(jsonObject));
+        return convertRecursively(jsonObject, mergedOptions, mergedOptions.initialFormData, isTopLevelArraySupported(jsonObject));
     }
 
     function convertRecursively(jsonObject, options, formData, isToplevelArrPrimitive, parentKey) {
