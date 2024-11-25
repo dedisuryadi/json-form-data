@@ -56,10 +56,6 @@
         }
     }
 
-    function topLevelArraySupportedTypes(value) {
-        return typeof value === "number" || typeof value === "string";
-    }
-
     function isPlainArray(arr) {
         if (!Array.isArray(arr)) return false; // Ensure it's an array.
 
@@ -71,7 +67,7 @@
     }
 
     function isTopLevelArraySupported(arr) {
-        return isPlainArray(arr) && arr.every(topLevelArraySupportedTypes);
+        return isPlainArray(arr)
     }
 
     function convert(jsonObject, options) {
